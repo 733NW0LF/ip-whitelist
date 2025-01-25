@@ -12,17 +12,23 @@ def index():
 
 @app.route('/get_ip_info')
 def get_ip_info():
-    user_ip = request.remote_addr
     try:
+        # Fetch the public IP address of the client
+        ip_response = requests.get('https://api.ipify.org?format=json')
+        user_ip = ip_response.json().get('ip')
+        
+        # Fetch IP information from ipwho.is
         response = requests.get(f'http://ipwho.is/{user_ip}?output=json')
         data = response.json()
         return jsonify({
             'ip': data.get('ip'),
             'isp': data.get('connection', {}).get('isp'),
+            'city': data.get('city'),
+            'region': data.get('region'),
             'country': data.get('country')
         })
     except Exception as e:
         return jsonify({'error': 'Unable to fetch IP information'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True)
