@@ -29,6 +29,3 @@ def get_ip_info():
         })
     except Exception as e:
         return jsonify({'error': 'Unable to fetch IP information'}), 500
-
-if __name__ == '__main__':
-    app.run(debug=True)
