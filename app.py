@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request
 import requests
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -24,4 +25,4 @@ def get_ip_info():
         return jsonify({'error': 'Unable to fetch IP information'}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=True, host='0.0.0.0', port=port)
